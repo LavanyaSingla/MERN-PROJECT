@@ -15,3 +15,11 @@ exports.isAuthenticatedUser = catchAsyncErrors(async (req,res,next)=>{
     
 });
 
+exports.isAuthorizeRoles = (...roles)=>{
+    return (req,res,next) =>{
+        if(!roles.includes(req.user.role)){
+            return next(new ErrorHandler(403,`Role: ${req.user.role} not allowed to access this user`));
+        }
+        next();
+    }
+}
